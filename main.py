@@ -1,7 +1,7 @@
 # dont add into git
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 hostName = "localhost"
 serverPort = 8080
@@ -10,7 +10,7 @@ serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):
 
     def __get_index(self):
-        with open('templates/contacts.html', 'r', encoding='utf-8') as f:
+        with open("templates/contacts.html", "r", encoding="utf-8") as f:
             return f.read()
 
     def do_GET(self):
@@ -21,24 +21,24 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes(page_content, "utf-8"))
 
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])
+        content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length)
 
         # Декодируем данные
-        post_data_decoded = post_data.decode('utf-8')
+        post_data_decoded = post_data.decode("utf-8")
 
         # Парсим данные формы
         post_params = parse_qs(post_data_decoded)
 
         # Выводим в консоль все полученные данные
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("Получен POST-запрос")
-        print("="*50)
+        print("=" * 50)
         print("Сырые данные:", post_data_decoded)
         print("\nРазобранные данные:")
         for key, value in post_params.items():
             print(f"  {key}: {value[0]}")
-        print("="*50 + "\n")
+        print("=" * 50 + "\n")
 
         # Отправляем ответ пользователю
         response = """
